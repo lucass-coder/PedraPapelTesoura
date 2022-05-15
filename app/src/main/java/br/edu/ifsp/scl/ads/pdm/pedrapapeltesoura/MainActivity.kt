@@ -194,24 +194,29 @@ class MainActivity : AppCompatActivity() {
     // =================================================================================== //
     fun opcaoSelecionada3Parcicipantes(escolhaUsuario : String){
 
-        val imagemResultado : ImageView = findViewById(R.id.imageResultadoJogador1)
+        //val imagemResultado : ImageView = findViewById(R.id.imageResultadoJogador1)
         val textoResultado : TextView = findViewById(R.id.textResultado)
 
         val numero = geradorRandomico.nextInt(0..2)
         val opcoes = arrayOf("pedra", "papel", "tesoura")
-        val escolhaJogador1 = opcoes[numero];
+        val escolhaJogador1 = opcoes[numero]
+        activityMainBinding.imageResultadoJogador1.setImageResource(
+            resources.getIdentifier(escolhaJogador1, "drawable", packageName)
+        )
 
         val numero2 = geradorRandomico.nextInt(0..2)
-        val escolhaJogador2 = opcoes[numero2];
+        val escolhaJogador2 = opcoes[numero2]
         activityMainBinding.imageResultadoJogador2.setImageResource(
             resources.getIdentifier(escolhaJogador2, "drawable", packageName)
         )
 
-        when(escolhaJogador1) {
-            "pedra" -> imagemResultado.setImageResource(R.drawable.pedra)
-            "papel" -> imagemResultado.setImageResource(R.drawable.papel)
-            "tesoura" -> imagemResultado.setImageResource(R.drawable.tesoura)
-        }
+        // Forma que comecei fazendo
+//        when(escolhaJogador1) {
+//            "pedra" -> imagemResultado.setImageResource(R.drawable.pedra)
+//            "papel" -> imagemResultado.setImageResource(R.drawable.papel)
+//            "tesoura" -> imagemResultado.setImageResource(R.drawable.tesoura)
+//        }
+
 
         // Jogador1 Ganhador
         if(
@@ -234,8 +239,8 @@ class MainActivity : AppCompatActivity() {
         // Usuario ganhador
         else if (
             (escolhaUsuario == "pedra" && escolhaJogador1 == "tesoura" && escolhaJogador2 == "tesoura") ||
-            (escolhaUsuario == "papel" && escolhaJogador1 == "pedra" && escolhaJogador2 == "tesoura")   ||
-            (escolhaUsuario == "tesoura" && escolhaJogador1 == "papel" && escolhaJogador2 == "tesoura")
+            (escolhaUsuario == "papel" && escolhaJogador1 == "pedra" && escolhaJogador2 == "pedra")   ||
+            (escolhaUsuario == "tesoura" && escolhaJogador1 == "papel" && escolhaJogador2 == "papel")
         ) {
             textoResultado.setText("Você Venceu! =) ")
         } else { // Empate

@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura.databinding.ActivityMainBinding
@@ -149,21 +147,16 @@ class MainActivity : AppCompatActivity() {
     // =================================================================================== //
     //                          Quando o usuário escolhe 2 participantes                   //
     // =================================================================================== //
-    fun opcaoSelecionada2Participantes(escolhaUsuario : String){
+    private fun opcaoSelecionada2Participantes(escolhaUsuario : String){
 
-        val imagemResultado : ImageView = findViewById(R.id.imageResultadoJogador1)
-        val textoResultado : TextView = findViewById(R.id.textResultado)
+        // val textoResultado : TextView = findViewById(R.id.textResultado)
 
-        //val numero = (0..2).random()
         val numero = geradorRandomico.nextInt(0..2)
         val opcoes = arrayOf("pedra", "papel", "tesoura")
-        val escolhaJogador1 = opcoes[numero];
-
-        when(escolhaJogador1) {
-            "pedra" -> imagemResultado.setImageResource(R.drawable.pedra)
-            "papel" -> imagemResultado.setImageResource(R.drawable.papel)
-            "tesoura" -> imagemResultado.setImageResource(R.drawable.tesoura)
-        }
+        val escolhaJogador1 = opcoes[numero]
+        activityMainBinding.imageResultadoJogador1.setImageResource(
+            resources.getIdentifier(escolhaJogador1, "drawable", packageName)
+        )
 
         // Jogador1 Ganhador
         if(
@@ -172,19 +165,24 @@ class MainActivity : AppCompatActivity() {
             (escolhaJogador1 == "tesoura" && escolhaUsuario == "papel")
 
         ) {
-            textoResultado.setText("Jogador 1 Venceu! =( ")
+            "Jogador 1 Venceu! =( ".also { activityMainBinding.textResultado.text = it }
+            //textoResultado.setText("Jogador 1 Venceu! =( ")
         }
+
         // Usuario ganhador
         else if (
             (escolhaUsuario == "pedra" && escolhaJogador1 == "tesoura") ||
             (escolhaUsuario == "papel" && escolhaJogador1 == "pedra")   ||
             (escolhaUsuario == "tesoura" && escolhaJogador1 == "papel")
         ) {
-            textoResultado.setText("Você Venceu! =) ")
+            "Você Venceu! =) ".also { activityMainBinding.textResultado.text = it }
+            //textoResultado.setText("Você Venceu! =) ")
         }
+
         // Empate
         else {
-            textoResultado.setText("Empatou! =/ ")
+            "Empatou! =/ ".also { activityMainBinding.textResultado.text = it }
+            //textoResultado.setText("Empatou! =/ ")
         }
 
     }
@@ -192,10 +190,9 @@ class MainActivity : AppCompatActivity() {
     // =================================================================================== //
     //                          Quando o usuário escolhe 3 participantes                   //
     // =================================================================================== //
-    fun opcaoSelecionada3Parcicipantes(escolhaUsuario : String){
+    private fun opcaoSelecionada3Parcicipantes(escolhaUsuario : String){
 
-        //val imagemResultado : ImageView = findViewById(R.id.imageResultadoJogador1)
-        val textoResultado : TextView = findViewById(R.id.textResultado)
+        // val textoResultado : TextView = findViewById(R.id.textResultado)
 
         val numero = geradorRandomico.nextInt(0..2)
         val opcoes = arrayOf("pedra", "papel", "tesoura")
@@ -210,14 +207,6 @@ class MainActivity : AppCompatActivity() {
             resources.getIdentifier(escolhaJogador2, "drawable", packageName)
         )
 
-        // Forma que comecei fazendo
-//        when(escolhaJogador1) {
-//            "pedra" -> imagemResultado.setImageResource(R.drawable.pedra)
-//            "papel" -> imagemResultado.setImageResource(R.drawable.papel)
-//            "tesoura" -> imagemResultado.setImageResource(R.drawable.tesoura)
-//        }
-
-
         // Jogador1 Ganhador
         if(
             (escolhaJogador1 == "pedra" && escolhaJogador2 == "tesoura" && escolhaUsuario == "tesoura") ||
@@ -225,8 +214,10 @@ class MainActivity : AppCompatActivity() {
             (escolhaJogador1 == "tesoura" && escolhaJogador2 == "papel" && escolhaUsuario == "papel")
 
         ) {
-            textoResultado.setText("Jogador 1 Venceu! =( ")
+            "Jogador 1 Venceu! =( ".also { activityMainBinding.textResultado.text = it }
+            //textoResultado.setText("Jogador 1 Venceu! =( ")
         }
+
         // Jogador2 Ganhador
         else if(
             (escolhaJogador2 == "pedra" && escolhaJogador1 == "tesoura" && escolhaUsuario == "tesoura") ||
@@ -234,25 +225,30 @@ class MainActivity : AppCompatActivity() {
             (escolhaJogador2 == "tesoura" && escolhaJogador1 == "papel" && escolhaUsuario == "papel")
 
         ) {
-            textoResultado.setText("Jogador 2 Venceu! =( ")
+            "Jogador 2 Venceu! =( ".also { activityMainBinding.textResultado.text = it }
+            //textoResultado.setText("Jogador 2 Venceu! =( ")
         }
+
         // Usuario ganhador
         else if (
             (escolhaUsuario == "pedra" && escolhaJogador1 == "tesoura" && escolhaJogador2 == "tesoura") ||
             (escolhaUsuario == "papel" && escolhaJogador1 == "pedra" && escolhaJogador2 == "pedra")   ||
             (escolhaUsuario == "tesoura" && escolhaJogador1 == "papel" && escolhaJogador2 == "papel")
         ) {
-            textoResultado.setText("Você Venceu! =) ")
-        } else { // Empate
-            textoResultado.setText("Empatou! =/ ")
+            "Você Venceu! =) ".also { activityMainBinding.textResultado.text = it }
+            //textoResultado.setText("Você Venceu! =) ")
         }
-        //println("O numero sorteado foi: $numero")
-        //println("O ARRAY sorteado foi: $opcaoJogador1")
+        // Empate
+        else {
+            "Empatou! =/ ".also { activityMainBinding.textResultado.text = it }
+            //textoResultado.setText("Empatou! =/ ")
+        }
     }
 
     // =================================================================================== //
     //                          Configuração do menu e configurações                       //
     // =================================================================================== //
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PedraPapelTesoura</string>
+    <string name="app_name">Jo Ken Po</string>
     <string-array name="num_jogadores">
         <item>2</item>
         <item>3</item>

@@ -10,6 +10,9 @@
         android:id="@+id/numeroParticipantesTv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
         android:text="Selecione o número de participantes"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -19,6 +22,9 @@
         android:id="@+id/numeroParticipantesSp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="8dp"
         android:entries="@array/num_jogadores"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -28,10 +34,12 @@
         android:id="@+id/salvarBt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="8dp"
         android:text="Salvar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numeroParticipantesSp"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/numeroParticipantesSp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

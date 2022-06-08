@@ -1,13 +1,17 @@
 package br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura
 
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura.controller.ConfigController
 import br.edu.ifsp.scl.ads.pdm.pedrapapeltesoura.databinding.ActivityMainBinding
+import java.sql.SQLException
 import kotlin.random.Random
 import kotlin.random.nextInt
 
@@ -16,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var geradorRandomico : Random
 
     private lateinit var settingsActivityLauncher : ActivityResultLauncher<Intent>
-
+    private lateinit var configController: ConfigController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,32 +30,81 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
         geradorRandomico = Random(System.currentTimeMillis())
 
+        // =================================================================================== //
+        //                                 FAZENDO O BANCO DE DADOS                            //
+        // =================================================================================== //
+        configController = ConfigController(this)
+        val conf : Configuracao = configController.buscarConfig()
+
+        if(conf.numeroParticipantes == 2) {
+            // Usuário escolhe pedra
+            activityMainBinding.imagemPedra.setOnClickListener{
+                this.opcaoSelecionada2Participantes("pedra")
+                activityMainBinding.imageResultadoHumano.setImageResource(
+                    resources.getIdentifier("pedra", "drawable", packageName)
+                )
+            }
+            // Usuário escolhe papel
+            activityMainBinding.imagemPapel.setOnClickListener{
+                this.opcaoSelecionada2Participantes("papel")
+                activityMainBinding.imageResultadoHumano.setImageResource(
+                    resources.getIdentifier("papel", "drawable", packageName)
+                )
+            }
+            // Usuário escolhe tesoura
+            activityMainBinding.imagemTesoura.setOnClickListener{
+                this.opcaoSelecionada2Participantes("tesoura")
+                activityMainBinding.imageResultadoHumano.setImageResource(
+                    resources.getIdentifier("tesoura", "drawable", packageName)
+                )
+            }
+        } else {
+            "Jogador 2".also {
+                activityMainBinding.textoJogador2.text = it
+            }
+            "".also {
+                activityMainBinding.textResultado.text = it
+            }
+            activityMainBinding.imageResultadoJogador2.setImageResource(
+                resources.getIdentifier("padrao", "drawable", packageName)
+            )
+            activityMainBinding.imageResultadoJogador1.setImageResource(
+                resources.getIdentifier("padrao", "drawable", packageName)
+            )
+            activityMainBinding.imageResultadoHumano.setImageResource(
+                resources.getIdentifier("padrao", "drawable", packageName)
+            )
+
+            // Usuário escolhe pedra
+            activityMainBinding.imagemPedra.setOnClickListener{
+                this.opcaoSelecionada3Parcicipantes("pedra")
+                activityMainBinding.imageResultadoHumano.setImageResource(
+                    resources.getIdentifier("pedra", "drawable", packageName)
+                )
+            }
+            // Usuário escolhe papel
+            activityMainBinding.imagemPapel.setOnClickListener{
+                this.opcaoSelecionada3Parcicipantes("papel")
+                activityMainBinding.imageResultadoHumano.setImageResource(
+                    resources.getIdentifier("papel", "drawable", packageName)
+                )
+            }
+            // Usuário escolhe tesoura
+            activityMainBinding.imagemTesoura.setOnClickListener{
+                this.opcaoSelecionada3Parcicipantes("tesoura")
+                activityMainBinding.imageResultadoHumano.setImageResource(
+                    resources.getIdentifier("tesoura", "drawable", packageName)
+                )
+            }
+
+        }
+
 
         // =================================================================================== //
         //                      Chamada padrão quando inicia o app                             //
         // =================================================================================== //
 
-        // Usuário escolhe pedra
-        activityMainBinding.imagemPedra.setOnClickListener{
-            this.opcaoSelecionada2Participantes("pedra")
-            activityMainBinding.imageResultadoHumano.setImageResource(
-                resources.getIdentifier("pedra", "drawable", packageName)
-            )
-        }
-        // Usuário escolhe papel
-        activityMainBinding.imagemPapel.setOnClickListener{
-            this.opcaoSelecionada2Participantes("papel")
-            activityMainBinding.imageResultadoHumano.setImageResource(
-                resources.getIdentifier("papel", "drawable", packageName)
-            )
-        }
-        // Usuário escolhe tesoura
-        activityMainBinding.imagemTesoura.setOnClickListener{
-            this.opcaoSelecionada2Participantes("tesoura")
-            activityMainBinding.imageResultadoHumano.setImageResource(
-                resources.getIdentifier("tesoura", "drawable", packageName)
-            )
-        }
+
 
         // =================================================================================== //
         //                 Quando o usuário escolhe a quantidade de jogadores                  //
@@ -60,9 +113,9 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK) {
                 if(result.data != null) {
                     val configuracao : Configuracao? = result.data?.getParcelableExtra(Intent.EXTRA_USER)
-
                     if (configuracao != null) {
-                    if (configuracao.numeroParticipantes == 2) {
+                        configController.editarConfig(Configuracao(configuracao.numeroParticipantes))
+                        if (configuracao.numeroParticipantes == 2) {
                         "".also {
                             activityMainBinding.textoJogador2.text = it
                         }
